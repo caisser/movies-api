@@ -21,7 +21,8 @@
   "homepage": "https://github.com/caisser/movies-api#readme",
   "dependencies": {
     "dotenv": "^11.0.0",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "mongodb": "^4.3.0"
   },
   "devDependencies": {
     "eslint": "^8.6.0",
