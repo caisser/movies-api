@@ -8,6 +8,12 @@ const {
 
 const validationHandler = require('../util/middleware/validationHandler.js');
 
+const cacheResponse = require('../util/cacheResponse');
+const {
+  SIXTY_MINUTES_IN_SECONTS,
+  FIVE_MINUTES_IN_SECONDS,
+} = require('../util/time');
+
 function moviesApi(app) {
   const router = express.Router();
   app.use('/api/movies', router);
@@ -15,6 +21,7 @@ function moviesApi(app) {
   const moviesService = new MoviesService();
 
   router.get('/', async function (req, res, next) {
+    cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
     const { tags } = req.query;
 
     try {
@@ -32,6 +39,7 @@ function moviesApi(app) {
     '/:movieId',
     validationHandler({ movieId: movieIdSchema }, 'params'),
     async function (req, res, next) {
+      cacheResponse(res, SIXTY_MINUTES_IN_SECONTS);
       const { movieId } = req.params;
       try {
         const movie = await moviesService.getMovie({ movieId });
